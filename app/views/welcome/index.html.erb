@@ -1,34 +1,52 @@
-<!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <div class="container">
-  <table id="myTable" class=" table order-list">
-     <tr>
-      <td class="col-sm-4">
-          <input type="text" name="name" class="form-control" />
+<form id="contactForm1" action="/" method="post">
+  <!-- <div class="form-group">
+    <label for="gender1" class="col-sm-2 control-label">Method Type:</label>
+    <div class="col-sm-2">
+    <select class="form-control" id="gender1">
+      <option value="get">GET</option>
+      <option value="post">POST</option>
+    </select>          
+      
+    </div>
+  </div>  --> 
+
+  <table id="myTable1" class=" table order-list">
+     <tr class="dynamic-data">
+      <td class="col-sm-2 f-key no-field">
+          First URL<input type="text" name="f-key" class="form-control" />
       </td>
-      <td class="col-sm-4">
-          <input type="mail" name="mail"  class="form-control"/>
+      <td class="col-sm-2 f-value no-field">
+          First URL<input type="text" name="f-value" class="form-control" />
       </td>
-      <td class="col-sm-2"><a class="deleteRow"></a>
+    </tr>
+      <tr>
+      <td class="col-sm-2 l-key no-field">
+          Second URL<input type="text" name="l-key" class="form-control" />
+      </td>
+      <td class="col-sm-2 l-value no-field">
+         Second URL <input type="mail" name="l-value"  class="form-control"/>
       </td>
     </tr>
   </table>
     <table id="myTable" class=" table order-list">
     <thead>
-        <tr>
-            <td>FIrst URL</td>
-            <td>Second URL</td>
+        <tr class="field">
+            <td>KEY</td>
+            <td>VALUE</td>
         </tr>
     </thead>
     <tbody>
 	    <tr>
 	        <td class="col-sm-4">
-	            <input type="text" name="name" class="form-control" />
+	            <input type="text" name="id" class="form-control" />
 	        </td>
 	        <td class="col-sm-4">
-	            <input type="mail" name="mail"  class="form-control"/>
+	            <input type="mail" name="id"  class="form-control"/>
 	        </td>
 	        <td class="col-sm-2"><a class="deleteRow"></a>
 
@@ -44,16 +62,17 @@
         <tr>
         </tr>
     </tfoot>
-</table>
+  </table>
 </div>
-
+<button type="submit" value="Submit">Submit</button>
+</form>
 
 <script type="text/javascript">
   $(document).ready(function () {
     var counter = 0;
 
     $("#addrow").on("click", function () {
-        var newRow = $("<tr>");
+        var newRow = $("<tr class='field'>");
         var cols = "";
 
         cols += '<td><input type="text" class="form-control" name="name' + counter + '"/></td>';
@@ -71,8 +90,6 @@
         $(this).closest("tr").remove();       
         counter -= 1
     });
-
-
 });
 
 
@@ -89,4 +106,20 @@ function calculateGrandTotal() {
     });
     $("#grandtotal").text(grandTotal.toFixed(2));
 }
-</script> -->
+
+$("#contactForm1").submit(function(e) {
+    e.preventDefault(); // avoid to execute the actual submit of the form.
+    var form = $(this);
+    $.ajax({
+     type: "POST",
+     url: '/api/v1/call_get_api',
+     data: form.serialize(), // serializes the form's elements.
+     success: function(data)
+     {
+         alert(data); // show response from the php script.
+     }
+   });
+
+
+});
+</script>
